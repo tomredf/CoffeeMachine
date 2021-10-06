@@ -14,6 +14,9 @@ from data import resources
 # TODO: Add print report function
 
 
+# TODO: Add check sufficient resourese function
+
+
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
     print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
