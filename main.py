@@ -1,4 +1,4 @@
-# TODO: Do any required imports
+# TODO: Do any required imports first
 
 
 from data import MENU
