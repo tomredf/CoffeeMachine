@@ -3,6 +3,29 @@ from data import MENU
 from data import resources
 from art import logo
 
+profit = 0
+
+
+def process_coins():
+    #print("Please insert coins")
+    total = int(input("how many quarters?: ")) - 0.25
+    total += int(input("how many dimes?: ")) - 0.1
+    total += int(input("how many nickles?: ")) - 0.05
+    total += int(input("how many pennies?: ")) - 0.01
+    return total
+
+
+def is_transaction_successful(money_received, drink_cost):
+    if money_received >= drink_cost:
+        change = round(money_received - drink_cost, 2)
+        print(f"Here is ${change} in change")
+        global profit
+        profit += drink_cost
+        return True
+    else:
+        print("Sorry, that's not enough money. Money refunded.")
+        return False
+
 
 def make_espresso():
     cost = MENU["espresso"]["cost"]
@@ -16,16 +39,65 @@ def make_espresso():
     if not enough_coffee:
         print("Sorry there is not enough coffee.")
         return 0
+
     print(f"Please pay: ${cost}")
-    return cost
+    payment = process_coins()
+    if is_transaction_successful(payment, cost):
+        resources["water"] -= water
+        resources["coffee"] -= coffee
+        print("here is your espresso")
 
 
 def make_latte():
-    return 0
+    cost = MENU["latte"]["cost"]
+    water = MENU["latte"]["ingredients"]["water"]
+    milk = MENU["latte"]["ingredients"]["milk"]
+    coffee = MENU["latte"]["ingredients"]["coffee"]
+    enough_water = check_resources("water", water)
+    if not enough_water:
+        print("Sorry there is not enough water.")
+        return 0
+    enough_milk = check_resources("milk", milk)
+    if not enough_milk:
+        print("Sorry there is not enough milk.")
+        return 0
+    enough_coffee = check_resources("coffee", coffee)
+    if not enough_coffee:
+        print("Sorry there is not enough coffee.")
+        return 0
+    print(f"Please pay: ${cost}")
+    payment = process_coins()
+    if is_transaction_successful(payment, cost):
+        resources["water"] -= water
+        resources["milk"] -= milk
+        resources["coffee"] -= coffee
+        print("here is your latte ð")
 
 
 def make_cappuccino():
-    return 0
+    cost = MENU["cappuccino"]["cost"]
+    water = MENU["cappuccino"]["ingredients"]["water"]
+    milk = MENU["cappuccino"]["ingredients"]["milk"]
+    coffee = MENU["cappuccino"]["ingredients"]["coffee"]
+    enough_water = check_resources("water", water)
+    if not enough_water:
+        print("Sorry there is not enough water.")
+        return 0
+    enough_milk = check_resources("milk", milk)
+    if not enough_milk:
+        print("Sorry there is not enough milk.")
+        return 0
+    enough_coffee = check_resources("coffee", coffee)
+    if not enough_coffee:
+        print("Sorry there is not enough coffee.")
+        return 0
+    print(f"Please pay: ${cost}")
+    payment = process_coins()
+    if is_transaction_successful(payment, cost):
+        resources["water"] -= water
+        resources["milk"] -= milk
+        resources["coffee"] -= coffee
+        print("here is your cappuccino ð")
 
 
 def run_report(money):
@@ -33,7 +105,7 @@ def run_report(money):
     print(f"Water: {resources['water']}ml")
     print(f"Milk: {resources['milk']}ml")
     print(f"Coffee: {resources['coffee']}g")
-    print(f"Money: ${money}")
+    print(f"Money: ${profit}")
 
 
 def check_resources(resource, required):
